@@ -31,7 +31,7 @@ Tom 3
 
 시간복잡도: O(n)
 이미 인덱스가 정해져 있으므로 정렬의 필요가 없다.
-입력하는데 필요한 시간이 입력의 개수에 비례할 뿐.
+입력하는데 필요한 시간이 입력의 개수에 비례할 뿐이다.
 """
 
 applicants = int(input())
@@ -43,6 +43,5 @@ for _ in range(0, applicants):
 	app_list[int(applicant[-1]) - 1] = applicant[-1*len(applicant):-2]
 
 
-# print(app_list)
 for name in app_list:
 	print(name, end=" ")

@@ -3,7 +3,6 @@ Q2. 주어진 CSV 파일을 불러오고, pandas와 matplotlib 패키지를 사�
 
 """
 
-import csv
 import pandas as pds
 import matplotlib.pyplot as plt
 

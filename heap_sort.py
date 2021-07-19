@@ -27,7 +27,14 @@ root 노드와 가장 마지막 노드의 값을 교체해 최대값을 뽑아�
 2. Max(Min) Heapify를 한다.
 3. Extract Max(Min)을 반복하며 정렬된 배열을 만든다.
 -> root 노드와 마지막 노드를 교체, pop(새로운 배열에 추가), 다시 Max heap 만들기
+
+python에서는 heap 클래스를 지원하므로 이를 이용해서 heap을 생성할 수 있다.
+(python의 heap 클래스는 min-heap만을 지원한다.)
+
+python의 heap 클래스는 heapify, heap의 삽입, 추출, 삽입동시추출, 등을 지원한다.
 """
+
+import heapq
 
 unsorted = [ 2, 4, 5, 234, 1, 8, 7, 99, 43, 42, 22 ]
 
@@ -86,3 +93,18 @@ def heap_sort(not_sorted):
 	return sorted
 
 print(heap_sort(unsorted))
+
+def heap_sort_with_heapq(not_sorted):
+	# create a min heap by heapify
+	heapq.heapify(not_sorted)
+	return [heapq.heappop(not_sorted) for _ in range(len(not_sorted))]
+
+"""
+python docs heapsort implementation
+
+def heapsort(iterable):
+    h = []
+    for value in iterable:
+        heappush(h, value)
+    return [heappop(h) for i in range(len(h))]
+"""
