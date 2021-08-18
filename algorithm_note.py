@@ -325,23 +325,71 @@
 
 # print(sum(L)/N)
 
-s = input()
-s = s.lower()
-d = dict()
+# s = input()
+# s = s.lower()
+# d = dict()
 
-for char in s:
-    if char in d:
-        d[char] += 1
-    else:
-        d[char] = 0
+# for char in s:
+#     if char in d:
+#         d[char] += 1
+#     else:
+#         d[char] = 0
 
-maxKey = ""
-maxVal = -1
-for key, val in d.items():
-    if int(val) > maxVal:
-        maxVal = val
-        maxKey = key
-    elif int(val) == maxVal:
-        maxKey = "?"
-        continue
-print(maxKey.upper())
+# maxKey = ""
+# maxVal = -1
+# for key, val in d.items():
+#     if int(val) > maxVal:
+#         maxVal = val
+#         maxKey = key
+#     elif int(val) == maxVal:
+#         maxKey = "?"
+#         continue
+# print(maxKey.upper())
+
+# x, y, w, h = input().split()
+# x = int(x)
+# y = int(y)
+# w = int(w)
+# h = int(h)
+
+# minx = min(w - x, x)
+# miny = min(h - y, y)
+# print(min(minx, miny))
+
+# while True:
+#     a, b, c = input().split()
+#     a = int(a)
+#     b = int(b)
+#     c = int(c)
+#     if a == 0 and b == 0 and c == 0:
+#         break
+#     maxi = max(a,b,c)
+#     if (a**2 + b**2 + c**2 - maxi**2) == maxi**2:
+#         print('right')
+#     else:
+#         print('wrong')
+
+# T = int(input())
+
+# for _ in range(T):
+#     h, w, n = input().split()
+#     h, w, n = int(h), int(w), int(n)
+#     wind = (n-1) // h + 1
+#     hind = n % h
+#     if hind == 0:
+#         hind = h
+#     room_number = hind * 100 + wind
+#     print(room_number)
+
+N = int(input())
+Ms = []
+for i in range(1, N+1):
+    m = i
+    for j in str(i):
+        m += int(j)
+    if m == N:
+        Ms.append(i)
+if len(Ms) == 0:
+    print(0)
+else:
+    print(min(Ms))
