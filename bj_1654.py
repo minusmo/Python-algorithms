@@ -1,33 +1,37 @@
-k, n = input().split()
-k, n = int(k), int(n)
+k, n = map(int,input().split())
 lines = []
 for _ in range(k):
-    line = int(input())
-    lines.append(line)
-# minimum = min(lines)
+    lines.append(int(input()))
 
-# max_len = -1
-# for i in range(minimum, 0, -1):
-#     lans = [j//i for j in lines]
-#     if sum(lans) >= n:
-#         max_len = i
-#         break
 M = max(lines)
 m = -1
-length = -1
-lengs = [i for i in range(1,M+1)]
-start = 0
-end = M+1
-while start < end:
-    lengs = lengs[start:end]
-    mid = lengs[round((start+end)/2)]
-    if sum([line//mid for line in lines]) >= n and mid > m:
+start = 1
+end = M
+mid = (start+end)//2
+c = sum([line//mid for line in lines])
+while start+1 < end:
+    if c >= n and mid > m:
         m = mid
-        start = round((start+end)/2)
+        start = mid+1
     else:
-        end = round((start+end)/2)
+        end = mid-1
+        
+    mid = (start+end)//2
+    c = sum([line//mid for line in lines])
+
+if c >= n:
+    m = mid
+
+c = sum([line//end for line in lines])
+if c >= n:
+    m = end
+
 print(m)
 
+# note
+# 정수값을 최대값 2^31 -1 까지 배열로 저장하는 것은 메모리 초과를 유발한다. 
+
+# 몇가지 반례
 # 4 4
 # 10
 # 3
@@ -41,3 +45,35 @@ print(m)
 # 1
 # 1
 # :2
+
+# 다른 사람 풀이
+# k,n = map(int,input().split())
+# A = list()
+
+# for i in range(k):
+#     A.append(int(input()))
+
+# s = 1
+# e = max(A)
+# m = (s+e)//2
+# c = sum([q//m for q in A])
+# ret = -1
+
+# while s+1 < e:
+#     if c>=n:
+#         ret = m
+#         s = m+1
+#     else:
+#         e = m-1
+
+#     m = (s+e)//2
+#     c = sum([q//m for q in A])
+
+# if c >= n:
+#     ret = m
+
+# c = sum([q//e for q in A])
+# if c >= n:
+#     ret = e
+
+# print(ret)
