@@ -1,16 +1,17 @@
 N = int(input())
 
-s = [[N,0]]
-def makeOne(s):
-    n, m = s
-    ss = []
+m = 0
+def make_one(n, m):
+    if n==1:
+        return [1,m]
+    opers = []
     if n%3==0:
-        ss.append([n//3, m+1])
+        opers.append(make_one(n//3, m+1))
     if n%2==0:
-        ss.append([n//2, m+1])
-    if n-1>1:
-        ss.append([n-1, m+1])
-    return ss
+        opers.append(make_one(n//2, m+1))
+    if n-1>0:
+        opers.append(make_one(n-1, m+1))
+    return min(opers, key=lambda x: x[1])
 
-while N > 1:
-    
+print(make_one(N,m)[1])
+
