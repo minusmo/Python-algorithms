@@ -3,23 +3,16 @@
 N, M = map(int, input().split())
 
 def unique_series(n,m):
-    def isAvailable(series,i):
-        # promising
-        if not i in series:
-            return True
-        return False
-    
     def dfs(n,m,series):
         if m == 0:
             print(" ".join(map(str,series)))
             return
         
         for i in range(1, n+1):
-            if isAvailable(series,i):
-                series.append(i)
-                dfs(n,m-1,series)
-                # pruning
-                series.pop()
+            series.append(i)
+            dfs(n,m-1,series)
+            # pruning
+            series.pop()
     
     dfs(n,m,[])
     
