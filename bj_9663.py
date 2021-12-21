@@ -1,41 +1,29 @@
 # 백트래킹 예제: n by n 체스판에 n개의 퀸을 놓는 경우의 수를 출력하는 문제
 
-def isAvailable(currentCandidate, currentCol):
-    currentRow = len(currentCandidate)
-    for i in range(currentRow):
-        if currentCandidate[i] == currentCol or (abs(currentCandidate[i]-currentCol)) == currentRow-i:
-            return False
-    return True
-    
-def dfs(n, currentRow, currentCandidate):
-    ways = 0
+ways = 0
+def dfs(currentRow):
+    global ways
     if currentRow == n:
-        return 1
-    
-    for i in range(n):
-        if isAvailable(currentCandidate, i):
-            currentCandidate.append(i)
-            cands = dfs(n, currentRow+1, currentCandidate)
-            ways += cands
-            currentCandidate.pop(len(currentCandidate)-1)
-    return ways
+        ways += 1
+        return
 
-def nqueen(n):
-    nq = [0] * (n+1)
-    if n == 1:
-        return 1
-    if n < 5:
-        return 0
-    if n == 5:
-        return 10
-    nq[1] = 1
-    nq[5] = 10
-    
-    for i in range(6, n+1):
-        nq[i] = nq[i-1] + dfs(i,1,[i-1])
-    return nq[n]
+    for i in range(n):
+        isOk = True
+        if cols[i] == 1:
+            continue
+        for j in range(currentRow):
+            if abs(currentCands[j]-i) == currentRow-j:
+                isOk = False
+        if isOk:
+            currentCands[currentRow] = i
+            cols[i] = 1
+            dfs(currentRow+1)
+            cols[i] = 0
+            currentCands[currentRow] = 0
+
     
 n = int(input())
-
-print(nqueen(n))
-# print(len(nqueen(n)))
+currentCands = [0] * n
+cols = [0] * n
+dfs(0)
+print(ways)
