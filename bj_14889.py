@@ -19,22 +19,24 @@ def calculate(team):
 
 def find_pairs(start):
     last_added = start[-1]
-    pairs_left = [(i, last_added) for i in start[:-1]]
-    pairs_right = [(last_added, i) for i in start[:-1]]
+    pairs_left = [(i, last_added) for i in start[1:-1]]
+    pairs_right = [(last_added, i) for i in start[1:-1]]
     return pairs_left + pairs_right
 
 def calculate_pairs(pairs):
     total_stat = 0
     for pair in pairs:
-        total_stat += stats[pair[0]-1, pair[1]-1]
+        total_stat += stats[pair[0]-1][pair[1]-1]
     return total_stat
 
-def search(n, calculated_stat):
+calculated_stat = 0
+def search(n, index, calculated_stat):
     global min_diff, start, link, chosen
     if n >= 2:
         pairs = find_pairs(start)
-        total_stat = calculate_pairs(pairs)
-        calculated_stat += total_stat
+        added_stat = calculate_pairs(pairs)
+        calculated_stat += added_stat
+        
     if n == N/2:
         # calculate difference
         for i in range(1, N+1):
@@ -44,20 +46,27 @@ def search(n, calculated_stat):
         diff = abs(calculated_stat - calculate(link))
         min_diff = min(min_diff, diff)
         link = [0]
+        
     else:
-        if chosen[1] == 0 and sum(chosen[1:]) == 1:
+        if chosen[1] == 0 and sum(chosen[2:]) == 1:
             return
-        for i in range(1, N+1):
+        for i in range(index, N+1):
             if chosen[i] == 0:
                 start.append(i)
                 chosen[i] = 1
-                search(n+1, calculated_stat)
+                search(n+1, i, calculated_stat)
                 start.pop()
                 chosen[i] = 0
 
-search(0, 0)
+search(0,1,calculated_stat)
 print(min_diff)
 """
+최적화 방법:
+1. 시간 복잡도 줄이기 n**2 -> n
+2. 누적 연산
+3. 기선택지 제외(promising 시간 단축)
+4. 불필요 연산 제외(모든 조합을 탐색할 필요가 없음)
+5. 탐색 범위 줄이기(index parameter)
 1234
 
 12 34
