@@ -1,24 +1,20 @@
 N: int = int(input())
 
 def minimum_of_costs(n) -> int:
-    minimum_costs: int = [0] * (n+1)
-    used_colors: int = [-1] * (n+1)
+    minimum_costs_r: int = [0] * (n+1)
+    minimum_costs_g: int = [0] * (n+1)
+    minimum_costs_b: int = [0] * (n+1)
+    
     for i in range(1, n+1):
         costs = get_costs_of_colors()
-        smaller_cost, color = get_smaller_cost_and_color(costs, used_colors[i-1])
-        minimum_cost_before_a_step = minimum_costs[i-1]
-        minimum_costs[i] = minimum_cost_before_a_step + smaller_cost
-        used_colors[i] = color
-    return minimum_costs[n]
+        
+        minimum_costs_r[i] = min(minimum_costs_g[i-1], minimum_costs_b[i-1]) + costs[0]
+        minimum_costs_g[i] = min(minimum_costs_r[i-1], minimum_costs_b[i-1]) + costs[1]
+        minimum_costs_b[i] = min(minimum_costs_r[i-1], minimum_costs_g[i-1]) + costs[2]
+        
+    return min(minimum_costs_r[n], minimum_costs_g[n], minimum_costs_b[n])
 
 def get_costs_of_colors() -> list:
     return [int(cost) for cost in input().split()]
-
-def get_smaller_cost_and_color(costs, used_color) -> int:
-    costs[used_color] = 1001
-    smaller_cost: int = min(costs)
-    smaller_color: int = costs.index(smaller_cost)
-    return (smaller_cost, smaller_color)
-
 
 print(minimum_of_costs(N))
