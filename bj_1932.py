@@ -1,6 +1,6 @@
 def intTriangle():
     N = int(input())
-    numbers_in_triangle = [-1]
+    numbers_in_triangle = [0]
     max_sum_at_each_number = [0]
     for _ in range(N):
         numbers_in_each_level = get_numbers_in_each_level()
@@ -8,26 +8,28 @@ def intTriangle():
         max_sum_at_each_number.extend([0]*len(numbers_in_each_level))
         
     numbers = len(numbers_in_triangle)
-    for row in range(1, numbers+1):
-        if has_no_parent_left(row, i):
-            max_sum_at_each_number[row][i] = max_sum_at_each_number[row-1][i] + numbers_in_triangle[row][i]
-        elif has_no_parent_right(row, i):
-            max_sum_at_each_number[row][i] = 
-        else:
-            max_sum_at_each_number[row][i] = bigger_sum_in_two_route(max_sum_at_each_number[row-1][i], max_sum_at_each_number[row-1][i+1]) + numbers_in_triangle[row][i]
-    return max(max_sum_at_each_number[N])
+    passed_numbers = 1
+    max_sum_at_each_number[1] = numbers_in_triangle[1]
+    for currentLevel in range(2, N+1):
+        prevLevel = currentLevel - 1
+        for i in range(passed_numbers+1, passed_numbers+currentLevel+1):
+            if i == passed_numbers+1:
+                max_sum_at_each_number[i] = numbers_in_triangle[i] + max_sum_at_each_number[i-prevLevel]
+            elif i == passed_numbers+currentLevel:
+                max_sum_at_each_number[i] = numbers_in_triangle[i] + max_sum_at_each_number[i-currentLevel]
+            else:
+                max_sum_at_each_number[i] = numbers_in_triangle[i] + max_between_prev_route(max_sum_at_each_number[i-currentLevel], max_sum_at_each_number[i-prevLevel])
+        passed_numbers += currentLevel
+    return max(max_sum_at_each_number[-N:])
 
 def get_numbers_in_each_level():
     return list(map(int, input().split()))
 
-def bigger_sum_in_two_route(parent_left, parent_right):
+def max_between_prev_route(parent_left, parent_right):
     return max(parent_left, parent_right)
 
+print(intTriangle())
 
-MAX_SUM_OF_ROUTE_IN_TRIANGLE = 30
-def test_case_of_5():
-    assert intTriangle() == MAX_SUM_OF_ROUTE_IN_TRIANGLE
-    
 """
 5
 
