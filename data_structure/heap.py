@@ -1,8 +1,3 @@
-
-
-import re
-
-
 class Heap:
     def __init__(self, heap):
         self.max_heap = self.max_heap_sort(heap)
