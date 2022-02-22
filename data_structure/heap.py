@@ -65,6 +65,7 @@ class Heap:
         while smaller_than_child_node(root_node):
             self.max_heap = self.heapify(self.max_heap, root_node)
             root_node, root_value = self.largest_node(self.max_heap, root_node)
+            
         self.max_heap = self.max_heap[1:]
         
         return deleted_node
