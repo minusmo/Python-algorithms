@@ -2,7 +2,7 @@
 Quick Sort 퀵정렬
 
 Divde and Conquer 접근 사용
-pivot을 정해 그것을 기준으로 좌우(더 작은 것과 큰 )로 분류,
+pivot을 정해 그것을 기준으로 좌우(더 작은 것과 큰)로 분류,
 이후 recursive하게 배열을 절반씩 나누어
 정렬하는 방법
 Best Case: nlogn balanced partition
@@ -23,9 +23,6 @@ def quick_sort(not_sorted):
 		randomP = random.randint(0, len(not_sorted) - 1)
 	except ValueError:
 		return not_sorted.copy()
-	# except RecursionError:
-	# 	print(not_sorted)
-	# 	return not_sorted.copy()
 
 	sorted.append(not_sorted[randomP])
 
