@@ -17,7 +17,6 @@ def get_largest_number(number, k):
         max_number.append(max_number_precede)
     return ''.join([str(digit) for digit in max_number])
 
-
 def find_max_number_precede(number, left_bound_index, right_bound_index):
     max_number_index = 0
     max_number = -1
