@@ -7,8 +7,9 @@ class Heap:
     
     def max_heap_sort(self, heap):
         heap_sorted = []
-        if len(heap) == 1:
+        if len(heap) <= 1:
             heap_sorted.extend(heap)
+            return heap_sorted
     
         heap = self.max_heapify(heap)
         
