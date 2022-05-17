@@ -1,8 +1,14 @@
+from enum import Enum
 """
 Take backtracking approach.
 Design a Promising/bounding function and
 Do DFS in State-Space Tree.
 """
+
+class ItemIs(Enum):
+    NOTTAKEN = 0
+    TAKEN = 1
+
 class KnapSack:
     def __init__(self) -> None:
         self.items = self.getItems()
@@ -30,16 +36,18 @@ class KnapSack:
             "sumOfWeight": 0,
             "itemsIn": 0,
         }
-        self.DFS(sackState)
+        
+        self.DFS(sackState, 0)
     
-    def DFS(self, sackState):
-        potentialProfit = self.calculatePotentialProfit(sackState)
-        if self.isPromising(potentialProfit):
-            sackState = self.updateSackState(sackState)
-            self.updateBestProfit(sackState["sumOfProfit"])
-            self.DFS(sackState)
+    def DFS(self, sackState, item_to_process):
+        for itemState in ItemIs:
+            potentialProfit = self.calculatePotentialProfit(sackState, item_to_process, itemState)
+            if self.isPromising(potentialProfit):
+                sackState = self.updateSackState(sackState, item_to_process, itemState)
+                self.updateBestProfit(sackState["sumOfProfit"])
+                self.DFS(sackState)
     
-    def calculatePotentialProfit(self, sackState):
+    def calculatePotentialProfit(self, sackState, item_to_process, itemState):
         leftWeight = self.constraint - sackState["sumOfWeight"]
         sumOfProfit = sackState["sumOfProfit"]
         itemsIn = sackState["itemsIn"]
@@ -60,7 +68,7 @@ class KnapSack:
         else:
             return True
     
-    def updateSackState(self, sackState):
+    def updateSackState(self, sackState, item_to_process, itemState):
         newState = {
             "sumOfProfit": 0,
             "sumOfWeight": 0,
