@@ -34,32 +34,35 @@ class KnapSack:
         sackState = {
             "sumOfProfit": 0,
             "sumOfWeight": 0,
-            "itemsIn": 0,
         }
         
         self.DFS(sackState, 0)
     
-    def DFS(self, sackState, item_to_process):
+    def DFS(self, sackState, itemInProcess):
         for itemState in ItemIs:
-            potentialProfit = self.calculatePotentialProfit(sackState, item_to_process, itemState)
+            potentialProfit = self.calculatePotentialProfit(sackState, itemInProcess, itemState)
             if self.isPromising(potentialProfit):
-                sackState = self.updateSackState(sackState, item_to_process, itemState)
+                sackState = self.updateSackState(sackState, itemInProcess, itemState)
                 self.updateBestProfit(sackState["sumOfProfit"])
-                self.DFS(sackState)
+                self.DFS(sackState, itemInProcess + 1)
     
-    def calculatePotentialProfit(self, sackState, item_to_process, itemState):
+    def calculatePotentialProfit(self, sackState, itemInProcess, itemState):
         leftWeight = self.constraint - sackState["sumOfWeight"]
+        if self.constraint < self.items[itemInProcess]:
+            return -1
+        
         sumOfProfit = sackState["sumOfProfit"]
-        itemsIn = sackState["itemsIn"]
-        for i in range(itemsIn, len(self.items)):
-            if self.weights[i] <= leftWeight:
-                leftWeight -= self.weights[i]
-                sumOfProfit += self.items[i]
+        potentialItems = itemInProcess if itemState == ItemIs.TAKEN else itemInProcess + 1
+        itemNotTaken = None
+        for potentialItem in range(potentialItems, len(self.items)):
+            if self.weights[potentialItem] <= leftWeight:
+                leftWeight -= self.weights[potentialItem]
+                sumOfProfit += self.items[potentialItem]
             else:
-                itemsIn = i
+                itemNotTaken = potentialItem
                 break
             
-        sumOfProfit += leftWeight * (self.items[itemsIn] / self.weights[itemsIn])
+        sumOfProfit += leftWeight * (self.items[itemNotTaken] / self.weights[itemNotTaken])
         return sumOfProfit
         
     def isPromising(self, potentialProfit):
@@ -68,13 +71,11 @@ class KnapSack:
         else:
             return True
     
-    def updateSackState(self, sackState, item_to_process, itemState):
+    def updateSackState(self, sackState, itemInProcess, itemState):
         newState = {
             "sumOfProfit": 0,
             "sumOfWeight": 0,
-            "itemsIn": 0,
         }
-        newState["itemsIn"] = sackState["itemsIn"] + 1
         newState["sumOfProfit"] = sackState["sumOfProfit"] + self.items[newState["itemsIn"]]
         newState["sumOfWeight"] = sackState["sumOfWeight"] + self.weights[newState["itemsIn"]]
         return newState
