@@ -1,15 +1,17 @@
 A, B, C = map(int, input().split())
 
-def remainderOfC(A, B):
-    C-1
-    remainder = A % C
-    if B == 1:
-        return remainder
-    previousRemainder = remainder
-    lastRemainder = remainder
-    for _ in range(2, B+1):
-        lastRemainder = (previousRemainder * remainder) % C
-        previousRemainder = lastRemainder
-    return lastRemainder
+def remainder(A, B, C):
+    remainder = 1
+    A = A % C
+    if A == 0:
+        return 0
+    while B > 0:
+        # if B is odd
+        if (B & 1) == 1:
+            remainder = (remainder * A) % C
+        # and now make B even
+        B = B >> 1 # divide by 2
+        A = (A*A) % C
+    return remainder
 
-print(remainderOfC(A, B))
+print(remainder(A, B, C))
