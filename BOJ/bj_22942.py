@@ -3,36 +3,38 @@ from collections import deque
 input = sys.stdin.readline
 
 # 2<= N <= 200000
+# -1000000 <= x <= 1000000
+# 1 <= r <= 10000
 N = int(input())
 circles = [None for _ in range(20000001)]
 
-isRightData = True
+is_right_data = True
 for _ in range(N):
     x, r = map(int, input().split())
     if circles[(x-r)+1000000] != None or circles[(x+r)+1000000] != None:
-        isRightData = False
+        is_right_data = False
     else:
-        circles[(x-r)+1000000] = '('
-        circles[(x+r)+1000000] = ')'
+        circles[(x-r)+1000000] = r
+        circles[(x+r)+1000000] = -r
 
-if not isRightData:
+if not is_right_data:
     print('NO')
 else:
     circles = list(filter(lambda x: x != None, circles))
 
     stack = deque()
     for item in circles:
-        if item == '(':
+        if item > 0:
             stack.append(item)
-        elif item == ')':
-            if len(stack) != 0 and stack[-1] == '(':
+        else:
+            if len(stack) != 0 and (stack[-1] + item) == 0:
                 stack.pop()
             else:
-                isRightData = False
+                is_right_data = False
                 break
     if len(stack) != 0:
-        isRightData = False
-    if isRightData:
+        is_right_data = False
+    if is_right_data:
         print('YES')
     else:
         print('NO')
