@@ -1,15 +1,15 @@
 import sys
-from heapq import heappush, heapify
+from heapq import nlargest
 input = sys.stdin.readline
 
 N = int(input())
 heap = []
+temp = []
 result = []
 for _ in range(N):
-    for item in map(int, input().split()):
-        heappush(heap, -1 * item)
-    result = heap[:N]
-    heap.clear()
-    heap.extend(result)
-    
-print(-1 * result[N-1])
+    temp.extend(result)
+    temp.extend(list(map(int, input().split())))
+    result = nlargest(N,temp)
+    temp.clear()
+
+print(result[N-1])
