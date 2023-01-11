@@ -3,7 +3,6 @@ from heapq import nlargest
 input = sys.stdin.readline
 
 N = int(input())
-heap = []
 temp = []
 result = []
 for _ in range(N):
