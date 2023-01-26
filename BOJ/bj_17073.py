@@ -22,14 +22,14 @@ def waterfall(tree, ROOT, water_stored):
 			current_v = q.popleft()
 			visited.add(current_v)
 			children = 0
-			if current_v != ROOT:
-				children = len(tree[current_v])-1
-			else:
+			if current_v == ROOT:
 				children = len(tree[current_v])
-			water_per_child = 0
+			else:
+				children = len(tree[current_v])-1
+			water_per_child = 0.0
 			if children > 0:
 				water_per_child = water_stored[current_v] / children
-			else:
+			elif children == 0:
 				node_leaves.add(current_v)
 			for child in tree[current_v]:
 				if not child in visited:
@@ -44,6 +44,6 @@ for leaf in node_leaves:
     avg_sum += water_stored[leaf]
 
 if len(node_leaves) > 0:
-  print(format(avg_sum/len(node_leaves),'.6f'))
+  print(format(avg_sum/len(node_leaves),'.10f'))
 else:
   print(avg_sum)
