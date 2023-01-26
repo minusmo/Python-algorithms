@@ -40,8 +40,7 @@ waterfall(tree, ROOT, water_stored)
 
 avg_sum = 0.0
 for leaf in node_leaves:
-  if int(water_stored[leaf]) > 0:
-    avg_sum += water_stored[leaf]
+  avg_sum += water_stored[leaf]
 
 if len(node_leaves) > 0:
   print(format(avg_sum/len(node_leaves),'.10f'))
