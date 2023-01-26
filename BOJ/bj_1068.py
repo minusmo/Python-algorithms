@@ -13,7 +13,7 @@ for idx, vertex in enumerate(vertices):
   else:
     tree[vertex].add(idx)
   if not idx in tree:
-      tree[idx] = set()
+    tree[idx] = set()
 
 q = deque()
 q.append(vertex_to_remove)
