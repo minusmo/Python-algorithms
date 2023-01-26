@@ -36,7 +36,6 @@ def waterfall(tree, ROOT, water_stored):
 					water_stored[child] += water_per_child
 					q.append(child)
 			
-
 waterfall(tree, ROOT, water_stored)
 
 avg_sum = 0.0
@@ -45,6 +44,6 @@ for leaf in node_leaves:
     avg_sum += water_stored[leaf]
 
 if len(node_leaves) > 0:
-  print(avg_sum/len(node_leaves))
+  print(format(avg_sum/len(node_leaves),'.6f'))
 else:
   print(avg_sum)
