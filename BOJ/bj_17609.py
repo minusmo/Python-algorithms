@@ -1,54 +1,96 @@
 import sys
-from collections import deque
 input = sys.stdin.readline
+
 T = int(input())
+results = []
 for _ in range(T):
   raw_string = input().strip()
-  string = deque(list(raw_string))
   result = 2
   front, back = 0, len(raw_string)-1
-  if len(string)%2 == 0:
+  not_palindrome_at = -1
+  
+  if len(raw_string)%2 == 0:
     while front < back:
-      if string[front] == string[back]:
+      if raw_string[front] == raw_string[back]:
         front += 1
         back -= 1
       else:
+        not_palindrome_at = front
         break
     if front > back:
       result = 0
+      
+    last_front = front
+    last_back = back
+    if result != 0:
+      for i in range(not_palindrome_at,len(raw_string)-not_palindrome_at):
+        if result == 1:
+          break
+        is_skipped = False
+        front = last_front
+        back = last_back
+        same_until_last = False
+        while front < back:
+          if front == i and not is_skipped:
+            front += 1
+            is_skipped = True
+          if back == i and not is_skipped:
+            back -= 1
+            is_skipped = True
+          if raw_string[front] == raw_string[back]:
+            same_until_last = True
+            if back - front > 1:
+              front += 1
+              back -= 1
+            else:
+              break
+          else:
+            same_until_last = False
+            break
+        if front == back and same_until_last:
+          result = 1
   else:
     while front != back:
-      if string[front] == string[back]:
+      if raw_string[front] == raw_string[back]:
         front += 1
         back -= 1
       else:
+        not_palindrome_at = front
         break
     if front == back:
       result = 0
-  
-  if result != 0:
-    for i in range(len(raw_string)):
-      if result == 1:
-        break
-      string_without_char = raw_string[:i] + raw_string[i+1:]
-      front, back = 0, len(string_without_char)-1
-      if len(string_without_char)%2 == 0:
-        while front < back:
-          if string_without_char[front] == string_without_char[back]:
-            front += 1
-            back -= 1
-          else:
-            break
-        if front > back:
-          result = 1
-      else:
+      
+    last_front = front
+    last_back = back
+    if result != 0:
+      for i in range(not_palindrome_at,len(raw_string)-not_palindrome_at):
+        if result == 1:
+          break
+        is_skipped = False
+        front = last_front
+        back = last_back
+        same_until_last = False
         while front != back:
-          if string_without_char[front] == string_without_char[back]:
+          if front == i and not is_skipped:
             front += 1
+            is_skipped = True
+          if back == i and not is_skipped:
             back -= 1
+            is_skipped = True
+          if raw_string[front] == raw_string[back]:
+            same_until_last = True
+            if back - front > 1:
+              front += 1
+              back -= 1
+            else:
+              break
           else:
+            same_until_last = False
             break
-        if front == back:
+        if back - front == 1 and same_until_last:
           result = 1
   
+  results.append(result)
+  
+for result in results:
   print(result)
